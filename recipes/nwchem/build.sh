@@ -38,7 +38,7 @@ export USE_NOFSCHECK=Y
 #export PYTHONVERSION="2.7"
 #export USE_PYTHONCONFIG=y
 
-export BLASOPT="-lopenblas -lpthread -lrt"
+export BLASOPT="-L$PREFIX/lib -lopenblas -lpthread -lrt"
 export BLAS_SIZE=4
 export USE_64TO32=y
 
@@ -53,6 +53,19 @@ cat ${SRC_DIR}/src/config/nwchem_config.h
 make 64_to_32
 make CC=${CC} DEPEND_CC=${CC} _CC=${_CC} FC=${FC} _FC=${_FC} V=1
 
+#=================================================
+#=Make=NWChem
+#=================================================
+
+cd "$NWCHEM_TOP"/src
+make CC=${CC} _CC=${_CC} FC=${FC} _FC=${_FC}  DEPEND_CC=${CC} nwchem_config
+cat ${SRC_DIR}/src/config/nwchem_config.h
+make DEPEND_CC=${CC} CC=${CC}  _CC=${CC} 64_to_32 
+make CC=${CC} DEPEND_CC=${CC} _CC=${_CC} FC=${FC} _FC=${_FC} V=1
+
+#=================================================
+#=Install=NWChem
+#=================================================
 
 mkdir -p "$PREFIX"/share/nwchem/libraryps/
 mkdir -p "$PREFIX"/etc

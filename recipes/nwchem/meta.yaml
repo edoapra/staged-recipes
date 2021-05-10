@@ -7,6 +7,8 @@ package:
 source:
   url: https://github.com/nwchemgit/nwchem/archive/refs/tags/v{{ version }}-release.tar.gz
   sha256: d63cf8c6e9df591ae8b542175999c16219757cc75fb6a528c06e7590a7f63271
+  patches:
+    - depend.patch
 
 build:
   number: 0
@@ -28,15 +30,19 @@ requirements:
       - {{ mpi }}
       - libblas * *openblas
       - openblas
+      - libopenblas
       - scalapack
       - python
 
 test:
     source_files:
       - QA
+      - src/basis/libraries
+    requires:
+      - perl
 
 about:
-  home: http://www.nwchem-sw.org
+  home: https://nwchemgit.github.io
   license: ECL-2.0
   license_family: OTHER
   license_file: LICENSE
